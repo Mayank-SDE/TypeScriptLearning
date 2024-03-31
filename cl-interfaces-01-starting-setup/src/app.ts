@@ -1,5 +1,37 @@
-interface Greetable {
+interface Named1 {
   name: string;
+  outputString?: string;
+}
+class A1 implements Named1 {
+  constructor(public name: string) {}
+}
+
+interface AddFnInterface {
+  (a: number, b: number): number;
+}
+
+let addInterface: AddFnInterface;
+
+addInterface = (a: number, b: number) => {
+  return a + b;
+};
+
+console.log(addInterface(50, 100));
+
+type AddFn = (a: number, b: number) => number;
+
+let add: AddFn;
+
+add = (a: number, b: number) => {
+  return a + b;
+};
+
+console.log(add(10, 20));
+
+interface Named {
+  name: string;
+}
+interface Greetable extends Named {
   greet(message: String): void;
 }
 
@@ -13,20 +45,16 @@ class A implements Greetable {
     console.log('hi there ' + message + '. My self ' + this.name);
   }
 }
-const user1 = new A('Mayank');
+const user1: Greetable = new A('Mayank');
 
 user1.greet('Rock On !');
 
-/*
 interface Person {
   name: string;
   age: number;
 
   greet(message: string): void;
 }
-
-
-
 
 /*
 

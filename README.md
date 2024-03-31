@@ -412,3 +412,230 @@ If an class implements an interface the class is forced to include the structure
 interfaces are mostly used to share functionalitites among different classes.
 
 interfaces does not have any kind of implementation at all and whereas the abastract classes can be mixture of the implemented properties and methods and non-implemnented methods and properties.
+
+With the help of interface we can force an certain structure to all the classses.
+
+We cannot add the public and private modifier but we can add the readonly keyword inside the interface which makes sure that the property is only set once and after that it cannot be re-initialized.
+
+One interface can also extends another interface.
+
+One class cannot extends multiple classes at the same time whereas one interface can extends multiple interfaces at the same time.
+
+Interfaces as Function Types -
+
+interfaces can also be used to define the structure of the function.
+
+Optional parameters and properties -
+
+Sinced whichever class implements the interface must implement all the properties defined inside the interface so we can also set the optional properties and parameters so that evfery class implementing the interface is not forced to provide the implementations of those optional properties.
+
+To make the property optional just add the ? at the last tof the propery name.
+
+Typescript compiles the interface code as an class.
+
+interfaces are pure typescript fetaure and when compiled they are converted into the classes and functions in javascript code.
+
+interfaces can force an class and object to have a certain type of structure.
+
+type have the union type functionality wheras interface does not.
+
+Intersection Types -
+
+intersection types allows us to combine other types.
+
+Two types can be intersected using the & (ampersand).
+
+intersections types are closely related to the interface inheritance.
+
+typeguards helps us with union types to check the type of the variable using the typeof keyword.
+
+the type guard typeof will only return the built in javascript type 'string' , 'object' , 'number' , 'boolean'.
+
+If we print the custom type typeguard it will print the 'object'
+
+type Employee={
+name:string;
+age:number;
+}
+const e1:Employee={
+name:"Mayank",
+age:25
+};
+
+console.log(typeof e1);
+
+output -> object
+
+if we want to check whether any property is inside an object or not using the in keyword ->
+
+console.log("PropertyName" in e1);
+
+There is one more type guard named as instanceof which tells whether the object is of any type of class or not.
+
+console.log(objectName instanceof ClassName);
+
+Discriminated Union is an typeguard and it is an pattern and makes the usage of union easier.
+
+We cannot use instanceof when dealing with the interfaces as interface is not compiled to javascript and it will not be available at the runtime.
+
+We can assign the type property to interface and based on the type checking we will be performing the operation at the runtime.
+
+So this is the Discriminated union where we describe one common property in every interface so that based on that common property holding different value for different interfaces we will be performing different operations.
+
+Type casting -
+
+When we are manipulating the DOM using the typescript and we want to perform some operation and for that purpose first we need to extract the html element from the index.html using the DOM manipulation method document.getElementById('someIdAssignedToHtmlElement') document.querySelector('htmlElementName').
+
+However while extracting the html element we must tell the typescript about the type of html element we are extracting since every html element is of type HTMLElement.
+
+<input> element is of type <HTMLInputElement>.
+
+Now there are two ways of type casting.
+
+1. const inputElement= <HTMLInputElement> document.querySelector('input');
+
+We cannot use the above way to type cast in react as we write jsx code.
+
+2. const inputElement= document.querySelector('input') as HTMLInputElement;
+
+We can use the as keyword to typecast and we can also use this in react too.
+
+Whenever you add the ! mark at last of the expression it is used for telling the typescript that this expression will never return the null.
+
+Inisde the interface if we want to declare properties where we know about the type of value property is going to hold but not about the number of prperty and name of the property then we can declare the property using the index type using square brackets.
+
+We can declare the property with any name inside the square brackets with specifying the type of the property.
+
+interface interfaceName{
+[prop:string]:string;
+}
+
+So here we are saying that we don't know about the property name and property count all i know about there are properties of type string and holding the string values.
+
+Whenever we have the index type inside the interface then all the property declare inside the interface must be of type string and not number.
+
+Function Overloads - We can call the same function with different parameters i.e different signature.
+
+function add(a:number,b:number):number
+function add(a:string,b:string):string
+{
+return a+b;
+}
+
+So you will be defining the function () definition as many times you want to overload but the logic inside the function will be only written once.
+
+Optional Chaning -
+
+When you do not know about that there is certain property inside some object or not. When you are feetching the data from the server database.
+
+So if we are not sure about the property of an object then we must add the ? after the object before . before accessing any property of the object.
+
+const object = {
+property1:value1,
+prioperty2:value2,
+}
+
+We will be accessing the prooperty using the optional chaning like this -
+
+object?.propery3
+
+Nullish Coalescing - it is the scenario where an value might be null or undefined and we want to assign another default value if the first value is null.
+
+const variable1 = variable2 ?? 'DEFAULT';
+
+now if the variable2 is null or undefined then 'DEFAULT' will be assigned as an value.
+
+Generics -
+
+AN Generics types is the feature used for definging the type of varable at the runtime.
+
+Promise - The promise object reperesents eventual completion or failure of asynchronous operation and its resulting value.
+
+A promise the object representing the eventual completion or failure of the asynchronous operation.
+
+Object.assign(target,source1,source2,source3); it takes two objects and returns the target object which is the combination of target and source object where if there exists same property inside the target and source object then the property from the source object is given higher property.
+
+We can also restrict genereic types using constraints using the extends keyword. We can restrict the type of generic to some of the data type.
+
+keyof is used for determining that whether an particular key exists inside the object or not. And also to tell typescript that an particular generic type passed as an parameter is an keyof another generic type.
+
+U extends keyof T.
+
+We can have gewneric classes and generic method as well.
+
+Decorators -
+
+Decorators are useful for meta programming.
+
+Inside the tsconfig.json file add the follwoing property inside the object.
+
+"experimentalDecorators":true it is used for enabling the es7 decorators.
+
+Decorators are helpful for meta programming i.e when other person uses your code it is easy for him/her to analyze your code.
+
+Decorators are basically an function you apply to something ex - class in a certain way.
+
+We add the decorators i.e the function we created using the @FunctionOrDecoratorName just above the class with some arguments.
+
+We pass the argument ex target:Function as an parameter to the decorator.
+
+Decorators are executed when your class are defined. Just before the class.
+
+JavaScript executes the decorator function just when it founds the class definition.
+
+Beside creating the decorators following the above way we can also define the decorators factories which basically returns the decorator function and also allows us to configure it when we assign it as an decorator to something.
+
+When we are using the decoraotor factories we have to create an function which is returning the function which itself is an decorator.
+
+And when we are adding the or applying the decorator to the class we will be using the
+@DecoratorName(somParameter) we can add the parenthesis to configure it.
+
+You always must pass the decorator function argument as an function even if you are mentioning it as function someDecoratorFunction (\_:Function)
+
+Angular also gives the decorators.
+
+We can also have more than one decorators and apply it to an class or any where else.
+
+If there are multiple decorators applied to the class the order of execution of decorators is the bottom up approach.
+
+If there are mutiple decorators factories are applied to the same class then it will follow the top to bottom approach.
+
+There are more places where we can add the decorators.
+
+We can also the decorator to the property. If we are adding the decorator to the property then it recieves two arguments the first argument is target which could be constructor of any type and the second argument is the propertyName which could be string or Symbol.
+
+We can also add decorators to accessors and parameters.
+
+All the decorators are running independent of instantiation of object. It only runs when the class is defined. It does not run at the run time.
+
+Decorators allows you to do work or setup work behind the scenes when the class is defined.
+
+Decorators are the function which runs when the class is defined to setup work like add the meta data.
+
+Decorators are used for adding extra functionality to the class , properties , parameters , accessors , methods.
+
+Advantage of decorators -
+
+1. Returning and changing a class in class Decorator -
+
+We can return the constructor function which will replace the orignal constructor function inside the decorator function.
+
+We also return something on the decorators used or applied on accessors or methods.
+
+Decorators used on the parameters or properties can also return something but generally are ignored by the typescript.
+
+However we can return new PropertyDescriptor when used with the accessors like set or get and on methods.
+
+Whatever you pass inside the bind() method this will refer to that object.
+
+The target passed as an parameter in the decorator is either the prototype for the objects or the constructor for the static properties or the reference to static methods.
+
+methods are the property of an object which holds the function as an value.
+
+We can also add validation with the help of decorators.
+
+We use <template> tag in html to contain some html code inside it and it will not be visible to the user by default until and unless we make it visible using the javascript or typescript.
+
+To get the content or node from the index.html we will use the document.importNode(pointerToHtmlElement.content (ite gives the refernce to the content of html element) , true for deep cloning and false for not deep cloning).
+
+We can use decorator to automatically bind to the object we want.
