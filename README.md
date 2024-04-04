@@ -639,3 +639,246 @@ We use <template> tag in html to contain some html code inside it and it will no
 To get the content or node from the index.html we will use the document.importNode(pointerToHtmlElement.content (ite gives the refernce to the content of html element) , true for deep cloning and false for not deep cloning).
 
 We can use decorator to automatically bind to the object we want.
+
+We can manage application state using the singleton class. We can create an class where only one instance will be created which will hold the applicatio data.
+
+abstract class can never be instantiated.
+
+Module and Namespace -
+
+There are two options which helps us in organizing the code into the mutiple files.
+
+Splitting code into multiple files we have three options -
+
+1. Write multiple typscript files. And compile all the files using typscript to javascript and import in the index.html file. However we have to import all the typescript files into one another manually which is cumbersome and error prone.
+
+2. Namespaces and file Bundling - Namespace is an typscript feature it allows you to group code together i.e using namespace to group code together and import namespaces into another file. So we can have namespace in another file i.e importing one file into another file and using the namespace to access the code from that importing file. We can also bundle different files into one file which is compiled as an whole.
+
+3. ES6 Imports and Exports using modules which is supported by modern javascript. We use the import/exort syntax. Per file compilation single <script> import. However using this modern browser knows how to fetch other dependencies. Bundling all files together using the third party tool like Webpack during the production.
+
+When using the namespace we will create an namespace of any name and then write the code with the export prefix ahead of the functions , classes and interfaces etc and on the file where we want to use all these code we will create the namespace of the same name ans write the code there as well. At the top we must add the path using the xml syntax -
+
+-> /// <reference path="someFileIncludingNamespace.ts" />
+
+interface is the feature of typescript and not the javascript feature.
+
+We must also set the "outFile":"./" inside the tsconfig.json file.
+
+This setting tells typescript that the compilation must happen into the one single javascript file.
+
+It is recommended to use the es-modules i.e using the import and export functionality instead of namespaces.
+
+There is an problem that these code folder structure needed to be loaded on the browser which may not work for the old browser and thus we need an functionality to bundle all the code into the single static file ex - webpack.
+
+Using Webpack , we have all the different folder structure only for the development process and during the production time we must have the single file using Webpack
+
+Webpack is the module bundler which bundles all the javascript files into the single file on the browser so that less http requests are bieng made.
+
+Typscript & Webpack -
+
+using es6 modules we have an disadvantage as using the es6module we have imports and exports and certain folder structure because of that there are alot of http request for every import and export. Every http request takes a little bit time which takes time. The downloading of file , setup the request from the browser takes time.
+
+Using the esmodule without an bundler tool will result in latency.
+
+Webpack is an tool used for bundling of all the javascript file into an single static assets inside one file.
+
+Webpack is an Bundling and Build Orchestration tool.
+
+Webpack not only bundles our code , it also optimize our code and it also allows us to add more build tool ex - css bundling tool.
+
+Multiple .ts files and imports result in alot of http request. Unoptimized code (not small as possible).
+
+During the development time we want to write the readable and meaningful code but at the time of the production we want to have code including the small variable names and shorter effective code.
+
+We also have the external development server when needed using the webpack. Which automatically reloads the file when we make any kind of changes.
+
+Webpack bundles our code , minified our code , we can also add the development server.
+
+Installing webpack and important dependencies.
+
+-> npm install --save-dev webpack webpack-cli webpack-dev-server typescript ts-loader
+
+Webpack will tarnspile our .ts code into the .js code and also bundles our all .js file.
+
+ts-loader will tell the webpack how to convert the typescript code into the javascript code.
+
+So that Webpack is able to both.
+
+Adding Entry and Output Configuration -
+
+You always must have webpack.config.js file this is the file that webpack will look for. This file will tell webpack how to work with our project.
+
+We define the module.exports={} inside the webpack.config.json file and this object is picked by the webpack and this is how you export thing in the node js environment.
+
+Webpack needed couple of information about the project i.e about the file from where the project starts i.e entry point of your project ex - app.ts
+
+Now webpack will go to the app.ts file and all the imports defined inside the app.ts file then go to the imported file and see there what are the imports defined there , webpack will continously go the deepest file until it sees all the imported files. Now webpack will compiles all the .ts files with the help of the ts-loader package.
+
+To make the webpack work effieciently we can remove all the .js extension from all the imports.
+
+Inside the module.exports object we define the entry property which is assigned the value of the entry file i.e app.ts refrenced from the root directory.
+
+Then we must define the output property which contains the object which further have the fileName property which will be produced as an output. i.e single js file which will be generated.
+
+contenthash tells the webpack to generate an unique hash for every bundle generated which is helpul for caching purpose on the browser.
+
+We also have the path property inside which you define the path of the folder inside which you want to create the bundle.js file.
+
+Remeber the outDir property defined inside the tsconfig.json file and the path property defined inside the webpack.config.json file inside the module.exports object inside the output property must be the same.
+
+However the path property wants the absolute path and for that we have to use the nodejs module.
+
+const path=require('path');
+
+path.resolve() is used for generating the absolute path of any folder.
+
+\_\_dirname is an globally available object in the nodejs environment and webpack uses nodejs to execute these files
+
+Now any extra functionality like compiling the .ts file into the .js file has to be taught to the webpack. Because by default it is just an bundling tool.
+
+Adding the typescript support with the ts-loader package. To tell webpack about the compilation of .ts file into the .js file we must add the following property inside the configuration object given to the webpack.
+
+module property
+
+module.exports={
+entry:'./src/app.ts',
+output:{
+filename:'bundle.[contenthash].js',
+path:path.resolve(\_\_dirname,'dist')
+},
+module:{
+rules:[
+{
+test:/\.ts$/,
+use:'ts-loader'
+}
+]
+}
+}
+
+we define the value of test such a way the it is an reular expression which is telling every file ending with .ts and we define the use property where we are using the ts-loader package which is used for telling use the ts-loader package for the compilation of .ts file.
+
+3rd party libraries and Typescript --
+
+We can utilize third party libraries in typscript project.
+
+We can use all the javascript libraries and typescript specific libraries.
+
+Lodash -
+
+lodash is an javascript library and to install it type the following command -
+
+npm install --save lodash
+
+Now while using lodash with the typescript type the following command also -
+
+npm install --save-dev @types/lodash
+
+There are also some useful package -
+
+let suppose we are fetching the data from the server and we want to convert the data fetched into the right models i.e class Now here we can use the class-transformer package.
+
+npm install class-transformer --save
+npm install reflect-metdata --save
+
+plainToClass is an method imported from the 'class-transformer' which is used for converting the fetched data from the server to the class we define.
+
+plainToClass( ClassName , dataFetchedFromServer );
+
+There is another package class-validator which really utilizes typescript and is build on the concept of the typescript decorators.
+
+class-validator package is used for enabling the validation inside of the class using the decorators.
+
+npm install class-validator --save
+
+We can import various types of decorators from the class-validator which we can apply to various properties of the class.
+
+Always remember to make the experimentalDecorator:"true" inside the tsconfig.json file before using the decorators.
+
+Now to validate any object of class using the decorators imported from the class-validator we must pass the object to the validate() method imported from the class-validator.
+
+validate(objectOfClass) returns an promise so we can attach the then() method or use async/await.
+
+For all the javascript libraries there exists @types/javascriptLibrary as an dependencies which contains the typescript definition alternate to javascript library.
+
+axios is an third party library used for sending the javascript request.
+
+To install axios ->
+
+npm install --save axios
+
+React & Typewcript -
+
+Setting up react application with Typescript.
+
+create-react-app supports typescript.
+
+use the following command -
+
+npx create-react-app my-app --template typescript
+
+How do react and typescript works together ?
+
+The React.FC is assigned as an type to all the react functional component.
+
+However if you are creating the class based component the type is React.ClassicComponent.
+
+Typescript gives extra type saftey.
+
+Working with Props and types of props.
+
+React.FC<> is actually an generic type where we can defined all extra props beside the default props like children.
+
+getting userinput with refs.
+
+Always create an interface for assigning the props type.
+
+useRef<>() , useState<>() takes generic type as value.
+
+Go through the documentation of the rexux toolkit and react-router-dom for typscript type saftey.
+
+If you are getting error for any javascript library like react-router-dom then you must install the @types/libraryName
+
+npm install --save-dev @types/react-router-dom
+
+Using the Nodejs and Express with the TypeScript -
+
+node app.ts also works because the node does not care about the extension and only execute the code which is stored inside the app.ts file. Until and unless node is able to understand the code written inside the app.ts which is similar to javascript. However it will give error or not able to execute the app.ts file if the code written inside the app.ts is typescript specific and thus we need an typescript compiler.
+
+We can install ts-node package to make it happen i.e node will able to understand the .ts code i.e typescript specific code.
+
+ts-node will combine the two steps involved -
+
+1. compiling of .ts file using the following comand -> tsc app.ts
+
+2. executing the javascript file generated -> node app.js
+
+Setting up the Nodejs , Express project with the typescript -
+
+1. npm init -> to get the package.json file to install the node packages.
+
+2. tsc --init -> To also initialize this project as an typescript project.
+
+3. npm install express -> used for installing the express framework of node js
+
+4. npm install body-parser -> used for installing the body-parser package which is used for parsing the incoming request body.
+
+5. npm install nodemon -> it is an tool used for auto restrart the compilation and execution on determining any kind of changes. It will restart the server on seeeing any kind of changes.
+
+6. npm install --save-dev @types/node -> to install all the type to work with node js.
+
+7. npm install --save-dev @types/express -> to work with the all the type of express
+
+
+Adding middleware and types - 
+
+express gives the middleware functionality.
+
+We can import the {Request,Response, NextFunction} from 'express';
+and assign it to the (req:Request, res:Response , next : NextFuntion)
+
+or we can directly assign the type to the function RequestHandler imported from the 'express'.
+
+const createProduct : RequestHandler = () => {
+
+}
